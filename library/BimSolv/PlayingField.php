@@ -5,10 +5,14 @@ class BimSolv_PlayingField
 	private $_size;
 	private $_givenShipCountOfRows;
 	private $_givenShipCountOfColumns;
+	private $_rows;
 	
 	public function __construct($size)
 	{
-		$this->_size = $size;	
+		$this->_size = $size;
+
+		$row = array_fill(0, $size, BimSolv_FieldTypes::UNKNOWN);
+		$this->_rows = array_fill(0, $size, $row);
 	}
 	
 	public function setGivenShipCountOfRows(array $givenShipCountOfRows)
@@ -50,6 +54,18 @@ class BimSolv_PlayingField
 		
 		return $this->_givenShipCountOfColumns[$columnIndex];
 	}
+	
+	public function get($rowIndex, $columnIndex)
+	{
+		return $this->_rows[$rowIndex][$columnIndex];
+	}
+	
+	public function set($rowIndex, $columnIndex, $fieldType)
+	{
+		$this->_rows[$rowIndex][$columnIndex] = $fieldType;
+	}
+	
+	// ACCESSORS
 	
 	public function getSize()
 	{

@@ -5,7 +5,7 @@ class PlayingFieldTest extends PHPUnit_Framework_TestCase
 	public function testGetSize()
 	{
 		$pf = new BimSolv_PlayingField(10);
-		$this->assertEquals(10, $pf->getSize(), "Size not as expected");
+		$this->assertEquals(10, $pf->getSize());
 	}
 
 	public function testGetGivenShipCountOfRow()
@@ -32,5 +32,18 @@ class PlayingFieldTest extends PHPUnit_Framework_TestCase
 		{
 			$this->assertEquals($shipCounts[$i], $pf->getGivenShipCountOfColumns($i));
 		}
+	}
+	
+	public function testSet()
+	{
+		$pf = new BimSolv_PlayingField(3);
+		$pf->set(0, 0, BimSolv_FieldTypes::LEFT_END);
+		
+		$this->assertEquals(BimSolv_FieldTypes::LEFT_END, $pf->get(0, 0));
+	}
+	
+	public function testGet()
+	{
+		
 	}
 }
