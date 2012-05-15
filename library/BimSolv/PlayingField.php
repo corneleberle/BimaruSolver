@@ -15,46 +15,6 @@ class BimSolv_PlayingField
 		$this->_rows = array_fill(0, $size, $row);
 	}
 	
-	public function setGivenShipCountOfRows(array $givenShipCountOfRows)
-	{
-		if (count($givenShipCountOfRows) != $this->_size)
-		{
-			throw new InvalidArgumentException("Number of elements in givenShipCountOfRows must match size of PlayingField");
-		}
-		
-		$this->_givenShipCountOfRows = $givenShipCountOfRows;
-	}
-	
-	public function setGivenShipCountOfColumns(array $givenShipCountOfColumns)
-	{
-		if (count($givenShipCountOfColumns) != $this->_size)
-		{
-			throw new InvalidArgumentException("Number of elements in givenShipCountOfColumns must match size of PlayingField");
-		}
-	
-		$this->_givenShipCountOfColumns = $givenShipCountOfColumns;
-	}
-	
-	public function getGivenShipCountOfRow($rowIndex)
-	{
-		if ($rowIndex < 0 || $rowIndex >= $this->_size)
-		{
-			throw new InvalidArgumentException("Invalid Parameter: rowIndex");
-		}
-		
-		return $this->_givenShipCountOfRows[$rowIndex];
-	}
-	
-	public function getGivenShipCountOfColumns($columnIndex)
-	{
-		if ($columnIndex < 0 || $columnIndex >= $this->_size)
-		{
-			throw new InvalidArgumentException("Invalid Parameter: rowIndex");
-		}
-		
-		return $this->_givenShipCountOfColumns[$columnIndex];
-	}
-	
 	public function get($rowIndex, $columnIndex)
 	{
 		return $this->_rows[$rowIndex][$columnIndex];
@@ -62,6 +22,11 @@ class BimSolv_PlayingField
 	
 	public function set($rowIndex, $columnIndex, $fieldType)
 	{
+		if ($this->get($rowIndex, $columnIndex) != BimSolv_FieldTypes::UNKNOWN)
+		{
+			throw new BimSolv_BimaruLogicException('Field at rowIndex ' . $rowIndex . ' and columnIndex ' . $columnIndex . ' was already set');
+		}
+
 		$this->_rows[$rowIndex][$columnIndex] = $fieldType;
 	}
 	
@@ -72,4 +37,43 @@ class BimSolv_PlayingField
 		return $this->_size;
 	}
 	
+	public function setGivenShipCountOfRows(array $givenShipCountOfRows)
+	{
+		if (count($givenShipCountOfRows) != $this->_size)
+		{
+			throw new InvalidArgumentException('Number of elements in givenShipCountOfRows must match size of PlayingField');
+		}
+	
+		$this->_givenShipCountOfRows = $givenShipCountOfRows;
+	}
+	
+	public function setGivenShipCountOfColumns(array $givenShipCountOfColumns)
+	{
+		if (count($givenShipCountOfColumns) != $this->_size)
+		{
+			throw new InvalidArgumentException('Number of elements in givenShipCountOfColumns must match size of PlayingField');
+		}
+	
+		$this->_givenShipCountOfColumns = $givenShipCountOfColumns;
+	}
+	
+	public function getGivenShipCountOfRow($rowIndex)
+	{
+		if ($rowIndex < 0 || $rowIndex >= $this->_size)
+		{
+			throw new InvalidArgumentException('Invalid Parameter: rowIndex');
+		}
+	
+		return $this->_givenShipCountOfRows[$rowIndex];
+	}
+	
+	public function getGivenShipCountOfColumns($columnIndex)
+	{
+		if ($columnIndex < 0 || $columnIndex >= $this->_size)
+		{
+			throw new InvalidArgumentException('Invalid Parameter: rowIndex');
+		}
+	
+		return $this->_givenShipCountOfColumns[$columnIndex];
+	}
 }

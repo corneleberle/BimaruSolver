@@ -42,8 +42,28 @@ class PlayingFieldTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(BimSolv_FieldTypes::LEFT_END, $pf->get(0, 0));
 	}
 	
+	public function testSetTwice()
+	{
+		$pf = new BimSolv_PlayingField(3);
+		$pf->set(0, 0, BimSolv_FieldTypes::LEFT_END);
+		try
+		{
+			$pf->set(0, 0, BimSolv_FieldTypes::RIGHT_END);
+			$this->fail('Exception expected');
+		}
+		catch (BimSolv_BimaruLogicException $e)
+		{
+			$this->assertStringMatchesFormat('%swas already set', $e->getMessage());
+		}
+	}
+	
 	public function testGet()
 	{
+		$pf = new BimSolv_PlayingField(3);
+		$this->assertEquals(BimSolv_FieldTypes::UNKNOWN, $pf->get(0, 0));
 		
+		$pf->set(0, 0, BimSolv_FieldTypes::SINGLE);
+		$this->assertEquals(BimSolv_FieldTypes::SINGLE, $pf->get(0, 0));
 	}
+
 }
